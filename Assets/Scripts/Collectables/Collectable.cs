@@ -116,18 +116,24 @@ public class Collectable : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
+{
+    if (recogido)
     {
-        if (recogido)
+        return;
+    }
+
+    if (collision.CompareTag("Mouth"))
+    {
+        recogido = true;
+
+        if (GameManager.Instance != null)
         {
-            return;
+            GameManager.Instance.SumarPuntos(puntos);
         }
 
-        if (collision.CompareTag("Mouth"))
-        {
-            recogido = true;
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
+}
 
     private void OnDrawGizmosSelected()
     {

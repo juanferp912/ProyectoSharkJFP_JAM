@@ -19,6 +19,7 @@ public class Collectable : MonoBehaviour
     private Vector2 direccionMovimiento;
     private float contadorDireccion;
     private bool recogido;
+    [SerializeField] private int puntos = 1;
 
     private void Start()
     {

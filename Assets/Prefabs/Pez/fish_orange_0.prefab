@@ -143,3 +143,4 @@ MonoBehaviour:
   distanciaDeteccion: 4
   limiteMinimo: {x: -25, y: -15}
   limiteMaximo: {x: 25, y: 15}
+  puntos: 1

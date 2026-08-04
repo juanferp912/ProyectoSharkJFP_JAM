@@ -14,12 +14,14 @@ public class Collectable : MonoBehaviour
     [SerializeField] private Vector2 limiteMinimo = new Vector2(-15f, -8f);
     [SerializeField] private Vector2 limiteMaximo = new Vector2(15f, 8f);
 
+    [Header("Puntuación")]
+    [SerializeField] private int puntos = 1;
+
     private Transform jugador;
     private SpriteRenderer spriteRenderer;
     private Vector2 direccionMovimiento;
     private float contadorDireccion;
     private bool recogido;
-    [SerializeField] private int puntos = 1;
 
     private void Start()
     {
@@ -41,7 +43,10 @@ public class Collectable : MonoBehaviour
             return;
         }
 
-        float distancia = Vector2.Distance(transform.position, jugador.position);
+        float distancia = Vector2.Distance(
+            transform.position,
+            jugador.position
+        );
 
         if (distancia <= distanciaDeteccion)
         {
@@ -98,14 +103,28 @@ public class Collectable : MonoBehaviour
             direccionMovimiento.y *= -1f;
         }
 
-        posicion.x = Mathf.Clamp(posicion.x, limiteMinimo.x, limiteMaximo.x);
-        posicion.y = Mathf.Clamp(posicion.y, limiteMinimo.y, limiteMaximo.y);
+        posicion.x = Mathf.Clamp(
+            posicion.x,
+            limiteMinimo.x,
+            limiteMaximo.x
+        );
+
+        posicion.y = Mathf.Clamp(
+            posicion.y,
+            limiteMinimo.y,
+            limiteMaximo.y
+        );
 
         transform.position = posicion;
     }
 
     private void GirarSprite()
     {
+        if (spriteRenderer == null)
+        {
+            return;
+        }
+
         if (direccionMovimiento.x > 0.01f)
         {
             spriteRenderer.flipX = false;
@@ -117,15 +136,26 @@ public class Collectable : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-{
-    if (recogido)
     {
-        return;
-    }
+        if (recogido)
+        {
+            return;
+        }
 
-    if (collision.CompareTag("Mouth"))
-    {
+        if (!collision.CompareTag("Mouth"))
+        {
+            return;
+        }
+
         recogido = true;
+
+        PlayerController jugadorController =
+            collision.GetComponentInParent<PlayerController>();
+
+        if (jugadorController != null)
+        {
+            jugadorController.Comer();
+        }
 
         if (GameManager.Instance != null)
         {
@@ -134,10 +164,12 @@ public class Collectable : MonoBehaviour
 
         Destroy(gameObject);
     }
-}
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position, distanciaDeteccion);
+        Gizmos.DrawWireSphere(
+            transform.position,
+            distanciaDeteccion
+        );
     }
 }

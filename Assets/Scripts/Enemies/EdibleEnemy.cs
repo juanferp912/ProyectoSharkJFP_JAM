@@ -13,16 +13,26 @@ public class EdibleEnemy : MonoBehaviour
             return;
         }
 
-        if (collision.CompareTag("Mouth"))
+        if (!collision.CompareTag("Mouth"))
         {
-            comido = true;
-
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.SumarPuntos(puntos);
-            }
-
-            Destroy(gameObject);
+            return;
         }
+
+        comido = true;
+
+        PlayerController jugadorController =
+            collision.GetComponentInParent<PlayerController>();
+
+        if (jugadorController != null)
+        {
+            jugadorController.Comer();
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SumarPuntos(puntos);
+        }
+
+        Destroy(gameObject);
     }
 }

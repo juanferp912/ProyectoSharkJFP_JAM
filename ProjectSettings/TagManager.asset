@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Fish
   - Mouth
+  - Mine
+  - Diver
   layers:
   - Default
   - TransparentFX

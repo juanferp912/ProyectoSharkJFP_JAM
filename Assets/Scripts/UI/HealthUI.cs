@@ -6,6 +6,7 @@ public class HealthUI : MonoBehaviour
     [SerializeField] private PlayerHealth saludJugador;
     [SerializeField] private TMP_Text textoVidas;
     [SerializeField] private TMP_Text textoGameOver;
+    [SerializeField] private GameObject botonReiniciar;
 
     private void Start()
     {
@@ -14,6 +15,11 @@ public class HealthUI : MonoBehaviour
         if (textoGameOver != null)
         {
             textoGameOver.gameObject.SetActive(false);
+        }
+
+        if (botonReiniciar != null)
+        {
+            botonReiniciar.SetActive(false);
         }
 
         if (saludJugador == null)
@@ -51,6 +57,11 @@ public class HealthUI : MonoBehaviour
         if (textoGameOver != null)
         {
             textoGameOver.gameObject.SetActive(true);
+        }
+
+        if (botonReiniciar != null)
+        {
+            botonReiniciar.SetActive(true);
         }
 
         Time.timeScale = 0f;

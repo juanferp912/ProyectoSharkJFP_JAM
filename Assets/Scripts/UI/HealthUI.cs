@@ -9,6 +9,8 @@ public class HealthUI : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
+
         if (textoGameOver != null)
         {
             textoGameOver.gameObject.SetActive(false);
@@ -50,5 +52,7 @@ public class HealthUI : MonoBehaviour
         {
             textoGameOver.gameObject.SetActive(true);
         }
+
+        Time.timeScale = 0f;
     }
 }

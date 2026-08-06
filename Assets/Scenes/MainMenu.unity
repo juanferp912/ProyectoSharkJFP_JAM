@@ -477,6 +477,7 @@ GameObject:
   - component: {fileID: 741535755}
   - component: {fileID: 741535757}
   - component: {fileID: 741535756}
+  - component: {fileID: 741535758}
   m_Layer: 5
   m_Name: Titulo
   m_TagString: Untagged
@@ -603,6 +604,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741535754}
   m_CullTransparentMesh: 1
+--- !u!114 &741535758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741535754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58dc9b501f86d34da43efc25b5b6082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escalaMinima: 0.97
+  escalaMaxima: 1.03
+  velocidad: 2
 --- !u!1 &753198586
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,13 +1617,13 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'CONTROLES
 
-    
+
 
     WASD o flechas: mover
 
     M: activar turbo
 
-    
+
 
     Come
     peces y buzos para sumar puntos.

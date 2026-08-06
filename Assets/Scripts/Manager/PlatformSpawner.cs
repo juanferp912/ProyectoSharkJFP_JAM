@@ -1,133 +1,93 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformSpawner : MonoBehaviour
 {
-    [Header("Prefabs")]
     [SerializeField] private GameObject[] plataformasPrefabs;
-
-    [Header("Jugador")]
-    [SerializeField] private Transform jugador;
-    [SerializeField] private float distanciaMinimaJugador = 5f;
-
-    [Header("Cantidad")]
-    [SerializeField] private int cantidadInicial = 12;
-    [SerializeField] private int cantidadMaxima = 20;
-
-    [Header("Generación")]
-    [SerializeField] private float tiempoEntreGeneraciones = 4f;
-    [SerializeField] private Vector2 limiteMinimo = new Vector2(-25f, -12f);
-    [SerializeField] private Vector2 limiteMaximo = new Vector2(25f, 12f);
-
-    [Header("Separación")]
-    [SerializeField] private float distanciaMinimaEntrePlataformas = 3f;
-    [SerializeField] private int intentosMaximos = 25;
-
-    private readonly List<GameObject> plataformasGeneradas = new List<GameObject>();
-    private float contador;
+    [SerializeField] private float limiteIzquierdo = -25f;
+    [SerializeField] private float limiteDerecho = 25f;
+    [SerializeField] private float alturaPiso = -17f;
+    [SerializeField] private float superposicion = 0.05f;
+    [SerializeField] private float alturaCollider = 0.8f;
+    [SerializeField] private float ajusteColliderY = 0.3f;
 
     private void Start()
     {
-        contador = tiempoEntreGeneraciones;
-
-        for (int i = 0; i < cantidadInicial; i++)
-        {
-            GenerarPlataforma();
-        }
+        GenerarPiso();
+        CrearColliderGeneral();
     }
 
-    private void Update()
-    {
-        LimpiarReferencias();
-
-        contador -= Time.deltaTime;
-
-        if (contador > 0f)
-        {
-            return;
-        }
-
-        if (plataformasGeneradas.Count < cantidadMaxima)
-        {
-            GenerarPlataforma();
-        }
-
-        contador = tiempoEntreGeneraciones;
-    }
-
-    private void GenerarPlataforma()
+    private void GenerarPiso()
     {
         if (plataformasPrefabs == null || plataformasPrefabs.Length == 0)
         {
             return;
         }
 
-        Vector2 posicion;
+        float posicionX = limiteIzquierdo;
 
-        if (!BuscarPosicionValida(out posicion))
+        while (posicionX < limiteDerecho)
         {
-            return;
-        }
+            GameObject prefab = plataformasPrefabs[
+                Random.Range(0, plataformasPrefabs.Length)
+            ];
 
-        int indice = Random.Range(0, plataformasPrefabs.Length);
-
-        GameObject plataforma = Instantiate(
-            plataformasPrefabs[indice],
-            posicion,
-            Quaternion.identity
-        );
-
-        plataformasGeneradas.Add(plataforma);
-    }
-
-    private bool BuscarPosicionValida(out Vector2 posicion)
-    {
-        for (int intento = 0; intento < intentosMaximos; intento++)
-        {
-            posicion = new Vector2(
-                Random.Range(limiteMinimo.x, limiteMaximo.x),
-                Random.Range(limiteMinimo.y, limiteMaximo.y)
+            GameObject plataforma = Instantiate(
+                prefab,
+                Vector3.zero,
+                Quaternion.identity,
+                transform
             );
 
-            if (jugador != null &&
-                Vector2.Distance(posicion, jugador.position) < distanciaMinimaJugador)
+            SpriteRenderer spriteRenderer =
+                plataforma.GetComponentInChildren<SpriteRenderer>();
+
+            if (spriteRenderer == null)
             {
-                continue;
+                Destroy(plataforma);
+                break;
             }
 
-            if (EstaCercaDeOtraPlataforma(posicion))
-            {
-                continue;
-            }
+            float ancho = spriteRenderer.bounds.size.x;
 
-            return true;
+            plataforma.transform.position = new Vector3(
+                posicionX + ancho / 2f,
+                alturaPiso,
+                0f
+            );
+
+            posicionX += ancho - superposicion;
         }
-
-        posicion = Vector2.zero;
-        return false;
     }
 
-    private bool EstaCercaDeOtraPlataforma(Vector2 posicion)
+    private void CrearColliderGeneral()
     {
-        foreach (GameObject plataforma in plataformasGeneradas)
+        BoxCollider2D colliderExistente =
+            GetComponent<BoxCollider2D>();
+
+        if (colliderExistente != null)
         {
-            if (plataforma == null)
-            {
-                continue;
-            }
-
-            if (Vector2.Distance(posicion, plataforma.transform.position) <
-                distanciaMinimaEntrePlataformas)
-            {
-                return true;
-            }
+            Destroy(colliderExistente);
         }
 
-        return false;
-    }
+        BoxCollider2D colliderSuelo =
+            gameObject.AddComponent<BoxCollider2D>();
 
-    private void LimpiarReferencias()
-    {
-        plataformasGeneradas.RemoveAll(plataforma => plataforma == null);
+        float anchoTotal =
+            limiteDerecho - limiteIzquierdo;
+
+        float centroX =
+            (limiteIzquierdo + limiteDerecho) / 2f;
+
+        colliderSuelo.size = new Vector2(
+            anchoTotal,
+            alturaCollider
+        );
+
+        colliderSuelo.offset = new Vector2(
+            centroX,
+            alturaPiso + ajusteColliderY
+        );
+
+        colliderSuelo.isTrigger = false;
     }
 }

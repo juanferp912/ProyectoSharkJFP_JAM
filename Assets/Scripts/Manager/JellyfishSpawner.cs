@@ -1,86 +1,75 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JellyfishSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject medusaPrefab;
-
-    [Header("Jugador")]
     [SerializeField] private Transform jugador;
-    [SerializeField] private float distanciaMinimaJugador = 7f;
+    [SerializeField] private int cantidadMaxima = 4;
+    [SerializeField] private float tiempoEntreGeneraciones = 9f;
+    [SerializeField] private float distanciaHorizontalMinima = 8f;
+    [SerializeField] private float distanciaHorizontalMaxima = 20f;
+    [SerializeField] private float limiteInferiorY = -12f;
+    [SerializeField] private float limiteSuperiorY = 4f;
 
-    [Header("Cantidad")]
-    [SerializeField] private int cantidadInicial = 3;
-    [SerializeField] private int cantidadMaxima = 5;
-
-    [Header("Generación")]
-    [SerializeField] private float tiempoEntreGeneraciones = 10f;
-    [SerializeField] private Vector2 limiteMinimo = new Vector2(-25f, -12f);
-    [SerializeField] private Vector2 limiteMaximo = new Vector2(25f, 12f);
-
-    private readonly List<GameObject> medusasGeneradas = new List<GameObject>();
-    private float contador;
+    private float temporizador;
 
     private void Start()
     {
-        contador = tiempoEntreGeneraciones;
-
-        for (int i = 0; i < cantidadInicial; i++)
+        if (jugador == null)
         {
-            GenerarMedusa();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+            {
+                jugador = player.transform;
+            }
         }
     }
 
     private void Update()
     {
-        medusasGeneradas.RemoveAll(medusa => medusa == null);
-
-        contador -= Time.deltaTime;
-
-        if (contador > 0f)
+        if (jugador == null || medusaPrefab == null)
         {
             return;
         }
 
-        if (medusasGeneradas.Count < cantidadMaxima)
+        temporizador += Time.deltaTime;
+
+        if (
+            temporizador >= tiempoEntreGeneraciones &&
+            ContarMedusas() < cantidadMaxima
+        )
         {
             GenerarMedusa();
+            temporizador = 0f;
         }
-
-        contador = tiempoEntreGeneraciones;
     }
 
     private void GenerarMedusa()
     {
-        if (medusaPrefab == null)
-        {
-            return;
-        }
+        float lado = Random.value < 0.5f ? -1f : 1f;
 
-        Vector2 posicion;
-        int intentos = 0;
+        float x =
+            jugador.position.x +
+            Random.Range(
+                distanciaHorizontalMinima,
+                distanciaHorizontalMaxima
+            ) * lado;
 
-        do
-        {
-            posicion = new Vector2(
-                Random.Range(limiteMinimo.x, limiteMaximo.x),
-                Random.Range(limiteMinimo.y, limiteMaximo.y)
-            );
-
-            intentos++;
-        }
-        while (
-            jugador != null &&
-            Vector2.Distance(posicion, jugador.position) < distanciaMinimaJugador &&
-            intentos < 25
+        float y = Random.Range(
+            limiteInferiorY,
+            limiteSuperiorY
         );
 
-        GameObject medusa = Instantiate(
+        Instantiate(
             medusaPrefab,
-            posicion,
+            new Vector3(x, y, 0f),
             Quaternion.identity
         );
+    }
 
-        medusasGeneradas.Add(medusa);
+    private int ContarMedusas()
+    {
+        return GameObject.FindGameObjectsWithTag("Jellyfish").Length;
     }
 }

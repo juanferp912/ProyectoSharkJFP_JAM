@@ -2003,9 +2003,9 @@ MonoBehaviour:
   - {fileID: 2515160172873930319, guid: dad92f7b07994574c87d2083bcaaa110, type: 3}
   - {fileID: 8946081228831985728, guid: 9b76a5ed2ece65741b643a14e4d64057, type: 3}
   - {fileID: 1865835616330305764, guid: 9b45aebc812ca2a469e7f6cfa6774569, type: 3}
-  cantidadInicial: 10
-  cantidadMaxima: 200
-  tiempoEntreGeneraciones: 3
+  cantidadInicial: 0
+  cantidadMaxima: 100
+  tiempoEntreGeneraciones: 0.5
   limiteMinimo: {x: -8, y: -4}
   limiteMaximo: {x: 8, y: 4}
 --- !u!4 &1118809368

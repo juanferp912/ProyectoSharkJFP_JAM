@@ -4,8 +4,10 @@ public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform jugador;
     [SerializeField] private float suavizado = 5f;
-    [SerializeField] private Vector2 limiteMinimo = new Vector2(-20f, -12f);
-    [SerializeField] private Vector2 limiteMaximo = new Vector2(20f, 12f);
+
+    [Header("Limites verticales")]
+    [SerializeField] private float limiteMinimoY = -8f;
+    [SerializeField] private float limiteMaximoY = 11f;
 
     private void LateUpdate()
     {
@@ -26,16 +28,10 @@ public class CameraFollow : MonoBehaviour
             suavizado * Time.deltaTime
         );
 
-        posicionSuavizada.x = Mathf.Clamp(
-            posicionSuavizada.x,
-            limiteMinimo.x,
-            limiteMaximo.x
-        );
-
         posicionSuavizada.y = Mathf.Clamp(
             posicionSuavizada.y,
-            limiteMinimo.y,
-            limiteMaximo.y
+            limiteMinimoY,
+            limiteMaximoY
         );
 
         transform.position = posicionSuavizada;

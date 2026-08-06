@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1635714750441534449}
   - component: {fileID: 2410931769427534059}
   - component: {fileID: 2422304146091216816}
+  - component: {fileID: -5478952882942593243}
   m_Layer: 0
   m_Name: Medusa
   m_TagString: Untagged
@@ -163,7 +164,23 @@ MonoBehaviour:
   velocidadVertical: 1
   alturaMovimiento: 1.5
   velocidadHorizontal: 0.4
+  nivelSuperficieAgua: 8
+  margenSuperficie: 1
+  limiteInferiorY: -13
   danio: 1
   tiempoEntreDanios: 1.5
-  limiteMinimo: {x: -20, y: -10}
-  limiteMaximo: {x: 20, y: 10}
+--- !u!114 &-5478952882942593243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123106270559052950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a40fd9c2bdfb24888c4a3024941cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanciaMaximaX: 45
+  distanciaMaximaY: 30
+  intervaloRevision: 2

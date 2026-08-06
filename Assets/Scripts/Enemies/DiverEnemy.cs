@@ -16,12 +16,10 @@ public class DiverEnemy : MonoBehaviour
     [SerializeField] private float tiempoEntreDisparos = 2f;
     [SerializeField] private float correccionRotacionBuzo;
 
-    [Header("Límites")]
-    [SerializeField] private Vector2 limiteMinimo =
-        new Vector2(-20f, -10f);
-
-    [SerializeField] private Vector2 limiteMaximo =
-        new Vector2(20f, 10f);
+    [Header("Agua")]
+    [SerializeField] private float nivelSuperficieAgua = 8f;
+    [SerializeField] private float margenSuperficie = 1f;
+    [SerializeField] private float limiteInferiorY = -12f;
 
     private Transform jugador;
     private SpriteRenderer spriteRenderer;
@@ -44,7 +42,9 @@ public class DiverEnemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
+        CorregirPosicionInicial();
         ElegirDireccionAleatoria();
+
         contadorDisparo = tiempoEntreDisparos;
     }
 
@@ -81,7 +81,7 @@ public class DiverEnemy : MonoBehaviour
             Nadar();
         }
 
-        ControlarLimites();
+        ControlarAltura();
     }
 
     private void Nadar()
@@ -94,6 +94,27 @@ public class DiverEnemy : MonoBehaviour
         if (contadorDireccion <= 0f)
         {
             ElegirDireccionAleatoria();
+        }
+
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
+
+        if (
+            transform.position.y >= limiteSuperior - 0.3f &&
+            direccionMovimiento.y > 0f
+        )
+        {
+            direccionMovimiento.y =
+                -Mathf.Abs(direccionMovimiento.y);
+        }
+
+        if (
+            transform.position.y <= limiteInferiorY + 0.3f &&
+            direccionMovimiento.y < 0f
+        )
+        {
+            direccionMovimiento.y =
+                Mathf.Abs(direccionMovimiento.y);
         }
 
         transform.position +=
@@ -180,7 +201,12 @@ public class DiverEnemy : MonoBehaviour
     private void CambiarEstadoArmado(bool nuevoEstado)
     {
         armado = nuevoEstado;
-        animator.SetBool("armado", armado);
+
+        if (animator != null)
+        {
+            animator.SetBool("armado", armado);
+        }
+
         contadorDisparo = tiempoEntreDisparos;
 
         if (!armado)
@@ -195,39 +221,65 @@ public class DiverEnemy : MonoBehaviour
         direccionMovimiento =
             Random.insideUnitCircle.normalized;
 
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
+
+        if (
+            transform.position.y >= limiteSuperior - 0.5f &&
+            direccionMovimiento.y > 0f
+        )
+        {
+            direccionMovimiento.y =
+                -Mathf.Abs(direccionMovimiento.y);
+        }
+
+        if (
+            transform.position.y <= limiteInferiorY + 0.5f &&
+            direccionMovimiento.y < 0f
+        )
+        {
+            direccionMovimiento.y =
+                Mathf.Abs(direccionMovimiento.y);
+        }
+
         contadorDireccion = tiempoCambioDireccion;
     }
 
-    private void ControlarLimites()
+    private void ControlarAltura()
     {
-        Vector2 posicion = transform.position;
+        Vector3 posicion = transform.position;
 
-        if (
-            posicion.x <= limiteMinimo.x ||
-            posicion.x >= limiteMaximo.x
-        )
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
+
+        if (posicion.y > limiteSuperior)
         {
-            direccionMovimiento.x *= -1f;
+            posicion.y = limiteSuperior;
+            direccionMovimiento.y =
+                -Mathf.Abs(direccionMovimiento.y);
         }
 
-        if (
-            posicion.y <= limiteMinimo.y ||
-            posicion.y >= limiteMaximo.y
-        )
+        if (posicion.y < limiteInferiorY)
         {
-            direccionMovimiento.y *= -1f;
+            posicion.y = limiteInferiorY;
+            direccionMovimiento.y =
+                Mathf.Abs(direccionMovimiento.y);
         }
 
-        posicion.x = Mathf.Clamp(
-            posicion.x,
-            limiteMinimo.x,
-            limiteMaximo.x
-        );
+        transform.position = posicion;
+    }
+
+    private void CorregirPosicionInicial()
+    {
+        Vector3 posicion = transform.position;
+
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
 
         posicion.y = Mathf.Clamp(
             posicion.y,
-            limiteMinimo.y,
-            limiteMaximo.y
+            limiteInferiorY,
+            limiteSuperior
         );
 
         transform.position = posicion;

@@ -13,14 +13,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float duracionTurbo = 1.2f;
     [SerializeField] private float tiempoRecargaTurbo = 2.5f;
 
+    [Header("Agua y aire")]
+    [SerializeField] private float nivelSuperficieAgua = 8f;
+    [SerializeField] private float gravedadAire = 3.5f;
+    [SerializeField] private float controlHorizontalAire = 3f;
+    [SerializeField] private float velocidadMaximaAireX = 7f;
+    [SerializeField] private float impulsoSalidaAgua = 4f;
+    [SerializeField] private float impulsoSalidaTurbo = 8f;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 movimiento;
+
     private float turboRestante;
     private float recargaRestante;
+
     private bool usandoTurbo;
     private bool mirandoIzquierda;
+    private bool dentroDelAgua = true;
 
     public float TurboRestante => turboRestante;
     public float DuracionTurbo => duracionTurbo;
@@ -28,44 +39,143 @@ public class PlayerController : MonoBehaviour
     public float TiempoRecargaTurbo => tiempoRecargaTurbo;
     public bool UsandoTurbo => usandoTurbo;
     public bool TurboEnRecarga => recargaRestante > 0f;
+    public bool DentroDelAgua => dentroDelAgua;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = visual.GetComponent<SpriteRenderer>();
         animator = visual.GetComponent<Animator>();
+
         turboRestante = duracionTurbo;
+        rb.gravityScale = 0f;
     }
 
     private void Update()
     {
+        RevisarSuperficie();
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
         movimiento = new Vector2(horizontal, vertical).normalized;
 
         ActualizarOrientacion();
-        ActualizarTurbo();
+
+        if (dentroDelAgua)
+        {
+            ActualizarTurbo();
+        }
+        else
+        {
+            usandoTurbo = false;
+        }
     }
 
     private void FixedUpdate()
     {
-        float velocidadActual = usandoTurbo ? velocidadTurbo : velocidad;
+        if (dentroDelAgua)
+        {
+            MovimientoEnAgua();
+        }
+        else
+        {
+            MovimientoEnAire();
+        }
+    }
+
+    private void RevisarSuperficie()
+    {
+        bool nuevoEstado = transform.position.y <= nivelSuperficieAgua;
+
+        if (nuevoEstado != dentroDelAgua)
+        {
+            CambiarEstadoAgua(nuevoEstado);
+        }
+    }
+
+    private void MovimientoEnAgua()
+    {
+        rb.gravityScale = 0f;
+
+        float velocidadActual = usandoTurbo
+            ? velocidadTurbo
+            : velocidad;
+
         rb.linearVelocity = movimiento * velocidadActual;
+    }
+
+    private void MovimientoEnAire()
+    {
+        rb.gravityScale = gravedadAire;
+
+        float nuevaVelocidadX =
+            rb.linearVelocity.x +
+            movimiento.x * controlHorizontalAire * Time.fixedDeltaTime;
+
+        nuevaVelocidadX = Mathf.Clamp(
+            nuevaVelocidadX,
+            -velocidadMaximaAireX,
+            velocidadMaximaAireX
+        );
+
+        rb.linearVelocity = new Vector2(
+            nuevaVelocidadX,
+            rb.linearVelocity.y
+        );
+    }
+
+    public void CambiarEstadoAgua(bool estaDentro)
+    {
+        bool estabaDentro = dentroDelAgua;
+        dentroDelAgua = estaDentro;
+
+        if (dentroDelAgua)
+        {
+            rb.gravityScale = 0f;
+            return;
+        }
+
+        rb.gravityScale = gravedadAire;
+
+        if (estabaDentro && rb.linearVelocity.y > 0f)
+        {
+            float impulso = usandoTurbo
+                ? impulsoSalidaTurbo
+                : impulsoSalidaAgua;
+
+            rb.linearVelocity = new Vector2(
+                rb.linearVelocity.x,
+                rb.linearVelocity.y + impulso
+            );
+        }
+
+        usandoTurbo = false;
     }
 
     private void ActualizarOrientacion()
     {
-        if (movimiento.sqrMagnitude <= 0.01f)
+        Vector2 direccion;
+
+        if (dentroDelAgua)
+        {
+            direccion = movimiento;
+        }
+        else
+        {
+            direccion = rb.linearVelocity.normalized;
+        }
+
+        if (direccion.sqrMagnitude <= 0.01f)
         {
             return;
         }
 
-        if (movimiento.x > 0.01f)
+        if (direccion.x > 0.01f)
         {
             mirandoIzquierda = false;
         }
-        else if (movimiento.x < -0.01f)
+        else if (direccion.x < -0.01f)
         {
             mirandoIzquierda = true;
         }
@@ -77,8 +187,8 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = true;
 
             angulo = Mathf.Atan2(
-                -movimiento.y,
-                Mathf.Abs(movimiento.x)
+                -direccion.y,
+                Mathf.Abs(direccion.x)
             ) * Mathf.Rad2Deg;
         }
         else
@@ -86,8 +196,8 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = false;
 
             angulo = Mathf.Atan2(
-                movimiento.y,
-                Mathf.Abs(movimiento.x)
+                direccion.y,
+                Mathf.Abs(direccion.x)
             ) * Mathf.Rad2Deg;
         }
 

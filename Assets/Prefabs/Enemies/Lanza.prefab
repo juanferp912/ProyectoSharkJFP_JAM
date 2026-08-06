@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8851023486266848552}
   - component: {fileID: 8773362714785071884}
   - component: {fileID: 9207153769397616297}
+  - component: {fileID: 1403278300665997955}
   m_Layer: 0
   m_Name: Lanza
   m_TagString: Untagged
@@ -179,3 +180,21 @@ MonoBehaviour:
   danio: 1
   tiempoDeVida: 5
   correccionRotacion: 0
+  nivelSuperficieAgua: 8
+  gravedadAire: 8
+  velocidadMaximaCaida: 12
+--- !u!114 &1403278300665997955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372524491030292232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a40fd9c2bdfb24888c4a3024941cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanciaMaximaX: 45
+  distanciaMaximaY: 30
+  intervaloRevision: 2

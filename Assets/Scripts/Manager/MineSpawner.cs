@@ -3,76 +3,75 @@ using UnityEngine;
 public class MineSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject minaPrefab;
-
-    [Header("Cantidad")]
-    [SerializeField] private int cantidadInicial = 3;
-    [SerializeField] private int cantidadMaxima = 5;
-
-    [Header("Generación")]
-    [SerializeField] private float tiempoEntreGeneraciones = 8f;
-    [SerializeField] private Vector2 limiteMinimo = new Vector2(-20f, -10f);
-    [SerializeField] private Vector2 limiteMaximo = new Vector2(20f, 10f);
-
-    [Header("Distancia del jugador")]
     [SerializeField] private Transform jugador;
-    [SerializeField] private float distanciaMinimaJugador = 5f;
+    [SerializeField] private int cantidadMaxima = 5;
+    [SerializeField] private float tiempoEntreGeneraciones = 7f;
+    [SerializeField] private float distanciaHorizontalMinima = 8f;
+    [SerializeField] private float distanciaHorizontalMaxima = 22f;
+    [SerializeField] private float limiteInferiorY = -12f;
+    [SerializeField] private float limiteSuperiorY = 5f;
 
-    private float contador;
+    private float temporizador;
 
     private void Start()
     {
-        contador = tiempoEntreGeneraciones;
-
-        for (int i = 0; i < cantidadInicial; i++)
+        if (jugador == null)
         {
-            GenerarMina();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+            {
+                jugador = player.transform;
+            }
         }
     }
 
     private void Update()
     {
-        contador -= Time.deltaTime;
-
-        if (contador > 0f)
+        if (jugador == null || minaPrefab == null)
         {
             return;
         }
 
-        int minasActuales = GameObject.FindGameObjectsWithTag("Mine").Length;
+        temporizador += Time.deltaTime;
 
-        if (minasActuales < cantidadMaxima)
+        if (
+            temporizador >= tiempoEntreGeneraciones &&
+            ContarMinas() < cantidadMaxima
+        )
         {
             GenerarMina();
+            temporizador = 0f;
         }
-
-        contador = tiempoEntreGeneraciones;
     }
 
     private void GenerarMina()
     {
-        if (minaPrefab == null)
-        {
-            return;
-        }
+        float lado = Random.value < 0.5f ? -1f : 1f;
 
-        Vector2 posicion;
-        int intentos = 0;
-
-        do
-        {
-            posicion = new Vector2(
-                Random.Range(limiteMinimo.x, limiteMaximo.x),
-                Random.Range(limiteMinimo.y, limiteMaximo.y)
-            );
-
-            intentos++;
-        }
-        while (
-            jugador != null &&
-            Vector2.Distance(posicion, jugador.position) < distanciaMinimaJugador &&
-            intentos < 20
+        float distancia = Random.Range(
+            distanciaHorizontalMinima,
+            distanciaHorizontalMaxima
         );
 
-        Instantiate(minaPrefab, posicion, Quaternion.identity);
+        float x =
+            jugador.position.x +
+            distancia * lado;
+
+        float y = Random.Range(
+            limiteInferiorY,
+            limiteSuperiorY
+        );
+
+        Instantiate(
+            minaPrefab,
+            new Vector3(x, y, 0f),
+            Quaternion.identity
+        );
+    }
+
+    private int ContarMinas()
+    {
+        return GameObject.FindGameObjectsWithTag("Mine").Length;
     }
 }

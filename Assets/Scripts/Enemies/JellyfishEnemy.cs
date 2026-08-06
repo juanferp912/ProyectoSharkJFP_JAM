@@ -7,89 +7,114 @@ public class JellyfishEnemy : MonoBehaviour
     [SerializeField] private float alturaMovimiento = 1.5f;
     [SerializeField] private float velocidadHorizontal = 0.4f;
 
+    [Header("Agua")]
+    [SerializeField] private float nivelSuperficieAgua = 8f;
+    [SerializeField] private float margenSuperficie = 1f;
+    [SerializeField] private float limiteInferiorY = -13f;
+
     [Header("Daño")]
     [SerializeField] private int danio = 1;
     [SerializeField] private float tiempoEntreDanios = 1.5f;
 
-    [Header("Límites")]
-    [SerializeField] private Vector2 limiteMinimo = new Vector2(-25f, -12f);
-    [SerializeField] private Vector2 limiteMaximo = new Vector2(25f, 12f);
-
-    private Vector3 posicionInicial;
-    private float direccionHorizontal;
+    private float posicionInicialY;
+    private float tiempo;
     private float ultimoDanio = -100f;
+    private float direccionHorizontal;
 
     private void Start()
     {
-        posicionInicial = transform.position;
-        direccionHorizontal = Random.value < 0.5f ? -1f : 1f;
+        float limiteSuperior = nivelSuperficieAgua - margenSuperficie;
+
+        Vector3 posicion = transform.position;
+
+        posicion.y = Mathf.Clamp(
+            posicion.y,
+            limiteInferiorY,
+            limiteSuperior
+        );
+
+        transform.position = posicion;
+
+        posicionInicialY = transform.position.y;
+
+        direccionHorizontal =
+            Random.value < 0.5f ? -1f : 1f;
     }
 
     private void Update()
     {
-        float posicionY =
-            posicionInicial.y +
-            Mathf.Sin(Time.time * velocidadVertical) * alturaMovimiento;
+        tiempo += Time.deltaTime;
 
-        float posicionX =
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
+
+        float nuevaY =
+            posicionInicialY +
+            Mathf.Sin(tiempo * velocidadVertical) *
+            alturaMovimiento;
+
+        nuevaY = Mathf.Clamp(
+            nuevaY,
+            limiteInferiorY,
+            limiteSuperior
+        );
+
+        float nuevaX =
             transform.position.x +
-            direccionHorizontal * velocidadHorizontal * Time.deltaTime;
-
-        if (posicionX <= limiteMinimo.x || posicionX >= limiteMaximo.x)
-        {
-            direccionHorizontal *= -1f;
-        }
-
-        posicionX = Mathf.Clamp(
-            posicionX,
-            limiteMinimo.x,
-            limiteMaximo.x
-        );
-
-        posicionY = Mathf.Clamp(
-            posicionY,
-            limiteMinimo.y,
-            limiteMaximo.y
-        );
+            direccionHorizontal *
+            velocidadHorizontal *
+            Time.deltaTime;
 
         transform.position = new Vector3(
-            posicionX,
-            posicionY,
+            nuevaX,
+            nuevaY,
             transform.position.z
         );
+
+        if (
+            transform.position.y >= limiteSuperior &&
+            nuevaY >= limiteSuperior
+        )
+        {
+            posicionInicialY =
+                limiteSuperior - alturaMovimiento;
+        }
+
+        if (
+            transform.position.y <= limiteInferiorY &&
+            nuevaY <= limiteInferiorY
+        )
+        {
+            posicionInicialY =
+                limiteInferiorY + alturaMovimiento;
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        IntentarHacerDanio(collision);
-    }
+        PlayerHealth playerHealth =
+            other.GetComponent<PlayerHealth>();
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        IntentarHacerDanio(collision);
-    }
+        if (playerHealth == null)
+        {
+            playerHealth =
+                other.GetComponentInParent<PlayerHealth>();
+        }
 
-    private void IntentarHacerDanio(Collider2D collision)
-    {
-        if (!collision.CompareTag("Player"))
+        if (playerHealth == null)
         {
             return;
         }
 
-        if (Time.time < ultimoDanio + tiempoEntreDanios)
+        if (
+            Time.time <
+            ultimoDanio + tiempoEntreDanios
+        )
         {
             return;
         }
 
-        PlayerHealth saludJugador =
-            collision.GetComponent<PlayerHealth>();
-
-        if (saludJugador == null)
-        {
-            return;
-        }
-
+        playerHealth.RecibirDanio(danio);
         ultimoDanio = Time.time;
-        saludJugador.RecibirDanio(danio);
     }
 }

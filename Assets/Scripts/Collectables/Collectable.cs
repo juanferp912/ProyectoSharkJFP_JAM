@@ -10,9 +10,10 @@ public class Collectable : MonoBehaviour
     [Header("Detección")]
     [SerializeField] private float distanciaDeteccion = 4f;
 
-    [Header("Límites del mundo")]
-    [SerializeField] private Vector2 limiteMinimo = new Vector2(-15f, -8f);
-    [SerializeField] private Vector2 limiteMaximo = new Vector2(15f, 8f);
+    [Header("Limites verticales")]
+    [SerializeField] private float limiteInferiorY = -14f;
+    [SerializeField] private float nivelSuperficieAgua = 8f;
+    [SerializeField] private float margenSuperficie = 0.7f;
 
     [Header("Puntuación")]
     [SerializeField] private int puntos = 1;
@@ -33,31 +34,40 @@ public class Collectable : MonoBehaviour
         }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        CorregirPosicionInicial();
         ElegirDireccionAleatoria();
     }
 
     private void Update()
     {
-        if (jugador == null || recogido)
+        if (recogido)
         {
             return;
         }
 
-        float distancia = Vector2.Distance(
-            transform.position,
-            jugador.position
-        );
-
-        if (distancia <= distanciaDeteccion)
+        if (jugador != null)
         {
-            Huir();
+            float distancia = Vector2.Distance(
+                transform.position,
+                jugador.position
+            );
+
+            if (distancia <= distanciaDeteccion)
+            {
+                Huir();
+            }
+            else
+            {
+                MoverAleatoriamente();
+            }
         }
         else
         {
             MoverAleatoriamente();
         }
 
-        ControlarLimites();
+        ControlarAltura();
         GirarSprite();
     }
 
@@ -79,6 +89,17 @@ public class Collectable : MonoBehaviour
         direccionMovimiento =
             ((Vector2)transform.position - (Vector2)jugador.position).normalized;
 
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
+
+        if (
+            transform.position.y >= limiteSuperior - 0.3f &&
+            direccionMovimiento.y > 0f
+        )
+        {
+            direccionMovimiento.y = -Mathf.Abs(direccionMovimiento.y);
+        }
+
         transform.position +=
             (Vector3)(direccionMovimiento * velocidadHuida * Time.deltaTime);
     }
@@ -86,33 +107,62 @@ public class Collectable : MonoBehaviour
     private void ElegirDireccionAleatoria()
     {
         direccionMovimiento = Random.insideUnitCircle.normalized;
+
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
+
+        if (
+            transform.position.y >= limiteSuperior - 0.5f &&
+            direccionMovimiento.y > 0f
+        )
+        {
+            direccionMovimiento.y = -Mathf.Abs(direccionMovimiento.y);
+        }
+
+        if (
+            transform.position.y <= limiteInferiorY + 0.5f &&
+            direccionMovimiento.y < 0f
+        )
+        {
+            direccionMovimiento.y = Mathf.Abs(direccionMovimiento.y);
+        }
+
         contadorDireccion = tiempoCambioDireccion;
     }
 
-    private void ControlarLimites()
+    private void ControlarAltura()
     {
-        Vector2 posicion = transform.position;
+        Vector3 posicion = transform.position;
 
-        if (posicion.x <= limiteMinimo.x || posicion.x >= limiteMaximo.x)
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
+
+        if (posicion.y > limiteSuperior)
         {
-            direccionMovimiento.x *= -1f;
+            posicion.y = limiteSuperior;
+            direccionMovimiento.y = -Mathf.Abs(direccionMovimiento.y);
         }
 
-        if (posicion.y <= limiteMinimo.y || posicion.y >= limiteMaximo.y)
+        if (posicion.y < limiteInferiorY)
         {
-            direccionMovimiento.y *= -1f;
+            posicion.y = limiteInferiorY;
+            direccionMovimiento.y = Mathf.Abs(direccionMovimiento.y);
         }
 
-        posicion.x = Mathf.Clamp(
-            posicion.x,
-            limiteMinimo.x,
-            limiteMaximo.x
-        );
+        transform.position = posicion;
+    }
+
+    private void CorregirPosicionInicial()
+    {
+        Vector3 posicion = transform.position;
+
+        float limiteSuperior =
+            nivelSuperficieAgua - margenSuperficie;
 
         posicion.y = Mathf.Clamp(
             posicion.y,
-            limiteMinimo.y,
-            limiteMaximo.y
+            limiteInferiorY,
+            limiteSuperior
         );
 
         transform.position = posicion;

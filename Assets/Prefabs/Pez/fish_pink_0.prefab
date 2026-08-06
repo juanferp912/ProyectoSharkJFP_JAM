@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6711489986750106465}
   - component: {fileID: 2158244755472478961}
   - component: {fileID: 7571932257410136517}
+  - component: {fileID: 1587894485419770130}
   m_Layer: 0
   m_Name: fish_pink_0
   m_TagString: Fish
@@ -137,10 +138,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba02a7b35e6470f40a213742efd02fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidadNormal: 1.8
-  velocidadHuida: 3
+  velocidadNormal: 2.5
+  velocidadHuida: 4
   tiempoCambioDireccion: 2
   distanciaDeteccion: 4
-  limiteMinimo: {x: -25, y: -15}
-  limiteMaximo: {x: 25, y: 15}
+  limiteInferiorY: -14
+  nivelSuperficieAgua: 8
+  margenSuperficie: 0.7
   puntos: 1
+--- !u!114 &1587894485419770130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8946081228831985728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a40fd9c2bdfb24888c4a3024941cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanciaMaximaX: 45
+  distanciaMaximaY: 30
+  intervaloRevision: 2

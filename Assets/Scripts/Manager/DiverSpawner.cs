@@ -2,77 +2,74 @@ using UnityEngine;
 
 public class DiverSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject buzoPrefab;
-
-    [Header("Cantidad")]
-    [SerializeField] private int cantidadInicial = 2;
-    [SerializeField] private int cantidadMaxima = 3;
-
-    [Header("Generación")]
-    [SerializeField] private float tiempoEntreGeneraciones = 12f;
-    [SerializeField] private Vector2 limiteMinimo = new Vector2(-20f, -10f);
-    [SerializeField] private Vector2 limiteMaximo = new Vector2(20f, 10f);
-
-    [Header("Jugador")]
+    [SerializeField] private GameObject diverPrefab;
     [SerializeField] private Transform jugador;
-    [SerializeField] private float distanciaMinimaJugador = 8f;
+    [SerializeField] private int cantidadMaxima = 3;
+    [SerializeField] private float tiempoEntreGeneraciones = 10f;
+    [SerializeField] private float distanciaHorizontalMinima = 12f;
+    [SerializeField] private float distanciaHorizontalMaxima = 24f;
+    [SerializeField] private float limiteInferiorY = -10f;
+    [SerializeField] private float limiteSuperiorY = 5f;
 
-    private float contador;
+    private float temporizador;
 
     private void Start()
     {
-        contador = tiempoEntreGeneraciones;
-
-        for (int i = 0; i < cantidadInicial; i++)
+        if (jugador == null)
         {
-            GenerarBuzo();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+            {
+                jugador = player.transform;
+            }
         }
     }
 
     private void Update()
     {
-        contador -= Time.deltaTime;
-
-        if (contador > 0f)
+        if (jugador == null || diverPrefab == null)
         {
             return;
         }
 
-        int buzosActuales = GameObject.FindGameObjectsWithTag("Diver").Length;
+        temporizador += Time.deltaTime;
 
-        if (buzosActuales < cantidadMaxima)
+        if (
+            temporizador >= tiempoEntreGeneraciones &&
+            ContarBuzos() < cantidadMaxima
+        )
         {
             GenerarBuzo();
+            temporizador = 0f;
         }
-
-        contador = tiempoEntreGeneraciones;
     }
 
     private void GenerarBuzo()
     {
-        if (buzoPrefab == null)
-        {
-            return;
-        }
+        float lado = Random.value < 0.5f ? -1f : 1f;
 
-        Vector2 posicion;
-        int intentos = 0;
+        float x =
+            jugador.position.x +
+            Random.Range(
+                distanciaHorizontalMinima,
+                distanciaHorizontalMaxima
+            ) * lado;
 
-        do
-        {
-            posicion = new Vector2(
-                Random.Range(limiteMinimo.x, limiteMaximo.x),
-                Random.Range(limiteMinimo.y, limiteMaximo.y)
-            );
-
-            intentos++;
-        }
-        while (
-            jugador != null &&
-            Vector2.Distance(posicion, jugador.position) < distanciaMinimaJugador &&
-            intentos < 20
+        float y = Random.Range(
+            limiteInferiorY,
+            limiteSuperiorY
         );
 
-        Instantiate(buzoPrefab, posicion, Quaternion.identity);
+        Instantiate(
+            diverPrefab,
+            new Vector3(x, y, 0f),
+            Quaternion.identity
+        );
+    }
+
+    private int ContarBuzos()
+    {
+        return GameObject.FindGameObjectsWithTag("Diver").Length;
     }
 }

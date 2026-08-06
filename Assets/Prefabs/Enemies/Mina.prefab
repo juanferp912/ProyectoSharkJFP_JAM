@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8972064689211357797}
   - component: {fileID: 2457232679813752445}
   - component: {fileID: 1714477435325979434}
+  - component: {fileID: 7547055065175502738}
   m_Layer: 0
   m_Name: Mina
   m_TagString: Mine
@@ -127,6 +128,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   altura: 0.15
   velocidad: 1.5
+  nivelSuperficieAgua: 8
+  margenSuperficie: 1.5
+  limiteInferiorY: -13
 --- !u!58 &2457232679813752445
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -178,3 +182,18 @@ MonoBehaviour:
   danio: 1
   explosionPrefab: {fileID: 6936177605800985089, guid: ab72c3f096cf5b44f9e02138f9f0081f, type: 3}
   tiempoAntesDeDestruir: 0.05
+--- !u!114 &7547055065175502738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309989315652652739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a40fd9c2bdfb24888c4a3024941cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanciaMaximaX: 45
+  distanciaMaximaY: 30
+  intervaloRevision: 2

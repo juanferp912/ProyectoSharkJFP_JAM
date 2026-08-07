@@ -178,11 +178,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidad: 8
   danio: 1
-  tiempoDeVida: 5
+  tiempoDeVida: 4
   correccionRotacion: 0
   nivelSuperficieAgua: 8
   gravedadAire: 8
-  velocidadMaximaCaida: 12
+  velocidadMaximaCaidaAire: 12
+  factorFrenadoEntradaAgua: 0.3
+  gravedadBajoAgua: 0.8
+  velocidadMaximaCaidaAgua: 2
 --- !u!114 &1403278300665997955
 MonoBehaviour:
   m_ObjectHideFlags: 0

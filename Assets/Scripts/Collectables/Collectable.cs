@@ -26,7 +26,8 @@ public class Collectable : MonoBehaviour
 
     private void Start()
     {
-        GameObject objetoJugador = GameObject.FindGameObjectWithTag("Player");
+        GameObject objetoJugador =
+            GameObject.FindGameObjectWithTag("Player");
 
         if (objetoJugador != null)
         {
@@ -81,91 +82,135 @@ public class Collectable : MonoBehaviour
         }
 
         transform.position +=
-            (Vector3)(direccionMovimiento * velocidadNormal * Time.deltaTime);
+            (Vector3)(
+                direccionMovimiento *
+                velocidadNormal *
+                Time.deltaTime
+            );
     }
 
     private void Huir()
     {
         direccionMovimiento =
-            ((Vector2)transform.position - (Vector2)jugador.position).normalized;
+            (
+                (Vector2)transform.position -
+                (Vector2)jugador.position
+            ).normalized;
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
         if (
-            transform.position.y >= limiteSuperior - 0.3f &&
+            transform.position.y >=
+            limiteSuperior - 0.3f &&
             direccionMovimiento.y > 0f
         )
         {
-            direccionMovimiento.y = -Mathf.Abs(direccionMovimiento.y);
+            direccionMovimiento.y =
+                -Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
         transform.position +=
-            (Vector3)(direccionMovimiento * velocidadHuida * Time.deltaTime);
+            (Vector3)(
+                direccionMovimiento *
+                velocidadHuida *
+                Time.deltaTime
+            );
     }
 
     private void ElegirDireccionAleatoria()
     {
-        direccionMovimiento = Random.insideUnitCircle.normalized;
+        direccionMovimiento =
+            Random.insideUnitCircle.normalized;
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
         if (
-            transform.position.y >= limiteSuperior - 0.5f &&
+            transform.position.y >=
+            limiteSuperior - 0.5f &&
             direccionMovimiento.y > 0f
         )
         {
-            direccionMovimiento.y = -Mathf.Abs(direccionMovimiento.y);
+            direccionMovimiento.y =
+                -Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
         if (
-            transform.position.y <= limiteInferiorY + 0.5f &&
+            transform.position.y <=
+            limiteInferiorY + 0.5f &&
             direccionMovimiento.y < 0f
         )
         {
-            direccionMovimiento.y = Mathf.Abs(direccionMovimiento.y);
+            direccionMovimiento.y =
+                Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
-        contadorDireccion = tiempoCambioDireccion;
+        contadorDireccion =
+            tiempoCambioDireccion;
     }
 
     private void ControlarAltura()
     {
-        Vector3 posicion = transform.position;
+        Vector3 posicion =
+            transform.position;
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
         if (posicion.y > limiteSuperior)
         {
-            posicion.y = limiteSuperior;
-            direccionMovimiento.y = -Mathf.Abs(direccionMovimiento.y);
+            posicion.y =
+                limiteSuperior;
+
+            direccionMovimiento.y =
+                -Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
         if (posicion.y < limiteInferiorY)
         {
-            posicion.y = limiteInferiorY;
-            direccionMovimiento.y = Mathf.Abs(direccionMovimiento.y);
+            posicion.y =
+                limiteInferiorY;
+
+            direccionMovimiento.y =
+                Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
-        transform.position = posicion;
+        transform.position =
+            posicion;
     }
 
     private void CorregirPosicionInicial()
     {
-        Vector3 posicion = transform.position;
+        Vector3 posicion =
+            transform.position;
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
-        posicion.y = Mathf.Clamp(
-            posicion.y,
-            limiteInferiorY,
-            limiteSuperior
-        );
+        posicion.y =
+            Mathf.Clamp(
+                posicion.y,
+                limiteInferiorY,
+                limiteSuperior
+            );
 
-        transform.position = posicion;
+        transform.position =
+            posicion;
     }
 
     private void GirarSprite()
@@ -179,7 +224,9 @@ public class Collectable : MonoBehaviour
         {
             spriteRenderer.flipX = false;
         }
-        else if (direccionMovimiento.x < -0.01f)
+        else if (
+            direccionMovimiento.x < -0.01f
+        )
         {
             spriteRenderer.flipX = true;
         }
@@ -210,6 +257,11 @@ public class Collectable : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.SumarPuntos(puntos);
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.ReproducirComer();
         }
 
         Destroy(gameObject);

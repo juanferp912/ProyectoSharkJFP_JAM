@@ -11,6 +11,7 @@ public class PauseMenuController : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false;
 
         if (panelPausa != null)
         {
@@ -36,6 +37,7 @@ public class PauseMenuController : MonoBehaviour
         }
 
         Time.timeScale = pausado ? 0f : 1f;
+        AudioListener.pause = pausado;
     }
 
     public void Continuar()
@@ -48,17 +50,26 @@ public class PauseMenuController : MonoBehaviour
         }
 
         Time.timeScale = 1f;
+        AudioListener.pause = false;
     }
 
     public void Reiniciar()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        AudioListener.pause = false;
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 
     public void VolverAlMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(nombreEscenaMenu);
+        AudioListener.pause = false;
+
+        SceneManager.LoadScene(
+            nombreEscenaMenu
+        );
     }
 }

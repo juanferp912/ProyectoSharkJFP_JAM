@@ -31,13 +31,29 @@ public class PlayerHealth : MonoBehaviour
         }
 
         vidasActuales -= cantidad;
-        vidasActuales = Mathf.Max(vidasActuales, 0);
+        vidasActuales = Mathf.Max(
+            vidasActuales,
+            0
+        );
 
-        VidasCambiadas?.Invoke(vidasActuales);
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.ReproducirDanio();
+        }
+
+        VidasCambiadas?.Invoke(
+            vidasActuales
+        );
 
         if (vidasActuales == 0)
         {
             derrotado = true;
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.ReproducirGameOver();
+            }
+
             JugadorDerrotado?.Invoke();
         }
     }

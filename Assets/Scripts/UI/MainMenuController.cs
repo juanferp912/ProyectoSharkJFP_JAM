@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1f;
+        AudioListener.pause = false;
 
         if (panelMenuPrincipal != null)
         {
@@ -25,7 +26,11 @@ public class MainMenuController : MonoBehaviour
     public void Jugar()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(nombreEscenaJuego);
+        AudioListener.pause = false;
+
+        SceneManager.LoadScene(
+            nombreEscenaJuego
+        );
     }
 
     public void MostrarInstrucciones()

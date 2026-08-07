@@ -28,6 +28,7 @@ public class DiverEnemy : MonoBehaviour
     private float contadorDireccion;
     private float contadorDisparo;
     private bool armado;
+    private bool comido;
 
     private void Start()
     {
@@ -39,28 +40,36 @@ public class DiverEnemy : MonoBehaviour
             jugador = objetoJugador.transform;
         }
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        spriteRenderer =
+            GetComponent<SpriteRenderer>();
+
+        animator =
+            GetComponent<Animator>();
 
         CorregirPosicionInicial();
         ElegirDireccionAleatoria();
 
-        contadorDisparo = tiempoEntreDisparos;
+        contadorDisparo =
+            tiempoEntreDisparos;
     }
 
     private void Update()
     {
-        if (jugador == null)
+        if (jugador == null || comido)
         {
             return;
         }
 
-        float distancia = Vector2.Distance(
-            transform.position,
-            jugador.position
-        );
+        float distancia =
+            Vector2.Distance(
+                transform.position,
+                jugador.position
+            );
 
-        if (!armado && distancia <= distanciaDeteccion)
+        if (
+            !armado &&
+            distancia <= distanciaDeteccion
+        )
         {
             CambiarEstadoArmado(true);
         }
@@ -86,10 +95,16 @@ public class DiverEnemy : MonoBehaviour
 
     private void Nadar()
     {
-        transform.rotation = Quaternion.identity;
-        spriteRenderer.flipY = false;
+        transform.rotation =
+            Quaternion.identity;
 
-        contadorDireccion -= Time.deltaTime;
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.flipY = false;
+        }
+
+        contadorDireccion -=
+            Time.deltaTime;
 
         if (contadorDireccion <= 0f)
         {
@@ -97,24 +112,31 @@ public class DiverEnemy : MonoBehaviour
         }
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
         if (
-            transform.position.y >= limiteSuperior - 0.3f &&
+            transform.position.y >=
+            limiteSuperior - 0.3f &&
             direccionMovimiento.y > 0f
         )
         {
             direccionMovimiento.y =
-                -Mathf.Abs(direccionMovimiento.y);
+                -Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
         if (
-            transform.position.y <= limiteInferiorY + 0.3f &&
+            transform.position.y <=
+            limiteInferiorY + 0.3f &&
             direccionMovimiento.y < 0f
         )
         {
             direccionMovimiento.y =
-                Mathf.Abs(direccionMovimiento.y);
+                Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
         transform.position +=
@@ -124,11 +146,18 @@ public class DiverEnemy : MonoBehaviour
                 Time.deltaTime
             );
 
+        if (spriteRenderer == null)
+        {
+            return;
+        }
+
         if (direccionMovimiento.x > 0.01f)
         {
             spriteRenderer.flipX = false;
         }
-        else if (direccionMovimiento.x < -0.01f)
+        else if (
+            direccionMovimiento.x < -0.01f
+        )
         {
             spriteRenderer.flipX = true;
         }
@@ -137,82 +166,132 @@ public class DiverEnemy : MonoBehaviour
     private void Atacar()
     {
         Vector2 direccionJugador =
-            ((Vector2)jugador.position -
-             (Vector2)transform.position).normalized;
+            (
+                (Vector2)jugador.position -
+                (Vector2)transform.position
+            ).normalized;
 
-        ApuntarAlJugador(direccionJugador);
+        ApuntarAlJugador(
+            direccionJugador
+        );
 
-        contadorDisparo -= Time.deltaTime;
+        contadorDisparo -=
+            Time.deltaTime;
 
         if (contadorDisparo <= 0f)
         {
-            Disparar(direccionJugador);
-            contadorDisparo = tiempoEntreDisparos;
+            Disparar(
+                direccionJugador
+            );
+
+            contadorDisparo =
+                tiempoEntreDisparos;
         }
     }
 
-    private void ApuntarAlJugador(Vector2 direccion)
+    private void ApuntarAlJugador(
+        Vector2 direccion
+    )
     {
         float angulo =
-            Mathf.Atan2(direccion.y, direccion.x) *
+            Mathf.Atan2(
+                direccion.y,
+                direccion.x
+            ) *
             Mathf.Rad2Deg;
 
         if (direccion.x < 0f)
         {
             angulo += 180f;
-            spriteRenderer.flipX = true;
-            spriteRenderer.flipY = true;
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = true;
+                spriteRenderer.flipY = true;
+            }
         }
         else
         {
-            spriteRenderer.flipX = false;
-            spriteRenderer.flipY = false;
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = false;
+                spriteRenderer.flipY = false;
+            }
         }
 
-        transform.rotation = Quaternion.Euler(
-            0f,
-            0f,
-            angulo + correccionRotacionBuzo
-        );
+        transform.rotation =
+            Quaternion.Euler(
+                0f,
+                0f,
+                angulo +
+                correccionRotacionBuzo
+            );
     }
 
-    private void Disparar(Vector2 direccion)
+    private void Disparar(
+        Vector2 direccion
+    )
     {
-        if (lanzaPrefab == null || puntoDisparo == null)
+        if (
+            lanzaPrefab == null ||
+            puntoDisparo == null
+        )
         {
             return;
         }
 
-        GameObject nuevaLanza = Instantiate(
-            lanzaPrefab,
-            puntoDisparo.position,
-            Quaternion.identity
-        );
+        GameObject nuevaLanza =
+            Instantiate(
+                lanzaPrefab,
+                puntoDisparo.position,
+                Quaternion.identity
+            );
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance
+                .ReproducirDisparo();
+        }
 
         HarpoonProjectile proyectil =
-            nuevaLanza.GetComponent<HarpoonProjectile>();
+            nuevaLanza
+                .GetComponent<HarpoonProjectile>();
 
         if (proyectil != null)
         {
-            proyectil.ConfigurarDireccion(direccion);
+            proyectil
+                .ConfigurarDireccion(
+                    direccion
+                );
         }
     }
 
-    private void CambiarEstadoArmado(bool nuevoEstado)
+    private void CambiarEstadoArmado(
+        bool nuevoEstado
+    )
     {
         armado = nuevoEstado;
 
         if (animator != null)
         {
-            animator.SetBool("armado", armado);
+            animator.SetBool(
+                "armado",
+                armado
+            );
         }
 
-        contadorDisparo = tiempoEntreDisparos;
+        contadorDisparo =
+            tiempoEntreDisparos;
 
         if (!armado)
         {
-            transform.rotation = Quaternion.identity;
-            spriteRenderer.flipY = false;
+            transform.rotation =
+                Quaternion.identity;
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipY = false;
+            }
         }
     }
 
@@ -222,67 +301,122 @@ public class DiverEnemy : MonoBehaviour
             Random.insideUnitCircle.normalized;
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
         if (
-            transform.position.y >= limiteSuperior - 0.5f &&
+            transform.position.y >=
+            limiteSuperior - 0.5f &&
             direccionMovimiento.y > 0f
         )
         {
             direccionMovimiento.y =
-                -Mathf.Abs(direccionMovimiento.y);
+                -Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
         if (
-            transform.position.y <= limiteInferiorY + 0.5f &&
+            transform.position.y <=
+            limiteInferiorY + 0.5f &&
             direccionMovimiento.y < 0f
         )
         {
             direccionMovimiento.y =
-                Mathf.Abs(direccionMovimiento.y);
+                Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
-        contadorDireccion = tiempoCambioDireccion;
+        contadorDireccion =
+            tiempoCambioDireccion;
     }
 
     private void ControlarAltura()
     {
-        Vector3 posicion = transform.position;
+        Vector3 posicion =
+            transform.position;
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
         if (posicion.y > limiteSuperior)
         {
-            posicion.y = limiteSuperior;
+            posicion.y =
+                limiteSuperior;
+
             direccionMovimiento.y =
-                -Mathf.Abs(direccionMovimiento.y);
+                -Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
         if (posicion.y < limiteInferiorY)
         {
-            posicion.y = limiteInferiorY;
+            posicion.y =
+                limiteInferiorY;
+
             direccionMovimiento.y =
-                Mathf.Abs(direccionMovimiento.y);
+                Mathf.Abs(
+                    direccionMovimiento.y
+                );
         }
 
-        transform.position = posicion;
+        transform.position =
+            posicion;
     }
 
     private void CorregirPosicionInicial()
     {
-        Vector3 posicion = transform.position;
+        Vector3 posicion =
+            transform.position;
 
         float limiteSuperior =
-            nivelSuperficieAgua - margenSuperficie;
+            nivelSuperficieAgua -
+            margenSuperficie;
 
-        posicion.y = Mathf.Clamp(
-            posicion.y,
-            limiteInferiorY,
-            limiteSuperior
-        );
+        posicion.y =
+            Mathf.Clamp(
+                posicion.y,
+                limiteInferiorY,
+                limiteSuperior
+            );
 
-        transform.position = posicion;
+        transform.position =
+            posicion;
+    }
+
+    private void OnTriggerEnter2D(
+        Collider2D collision
+    )
+    {
+        if (comido)
+        {
+            return;
+        }
+
+        if (!collision.CompareTag("Mouth"))
+        {
+            return;
+        }
+
+        comido = true;
+
+        PlayerController player =
+            collision.GetComponentInParent<PlayerController>();
+
+        if (player != null)
+        {
+            player.Comer();
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.ReproducirComer();
+        }
+
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()

@@ -15,7 +15,14 @@ public class MineObstacle : MonoBehaviour
             return;
         }
 
-        PlayerHealth saludJugador = collision.GetComponent<PlayerHealth>();
+        PlayerHealth saludJugador =
+            collision.GetComponent<PlayerHealth>();
+
+        if (saludJugador == null)
+        {
+            saludJugador =
+                collision.GetComponentInParent<PlayerHealth>();
+        }
 
         if (saludJugador == null)
         {
@@ -23,7 +30,13 @@ public class MineObstacle : MonoBehaviour
         }
 
         explotando = true;
+
         saludJugador.RecibirDanio(danio);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.ReproducirExplosion();
+        }
 
         if (explosionPrefab != null)
         {
@@ -34,20 +47,25 @@ public class MineObstacle : MonoBehaviour
             );
         }
 
-        Collider2D colisionMina = GetComponent<Collider2D>();
+        Collider2D colisionMina =
+            GetComponent<Collider2D>();
 
         if (colisionMina != null)
         {
             colisionMina.enabled = false;
         }
 
-        SpriteRenderer spriteMina = GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteMina =
+            GetComponent<SpriteRenderer>();
 
         if (spriteMina != null)
         {
             spriteMina.enabled = false;
         }
 
-        Destroy(gameObject, tiempoAntesDeDestruir);
+        Destroy(
+            gameObject,
+            tiempoAntesDeDestruir
+        );
     }
 }

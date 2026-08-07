@@ -58,7 +58,10 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        movimiento = new Vector2(horizontal, vertical).normalized;
+        movimiento = new Vector2(
+            horizontal,
+            vertical
+        ).normalized;
 
         ActualizarOrientacion();
 
@@ -86,7 +89,8 @@ public class PlayerController : MonoBehaviour
 
     private void RevisarSuperficie()
     {
-        bool nuevoEstado = transform.position.y <= nivelSuperficieAgua;
+        bool nuevoEstado =
+            transform.position.y <= nivelSuperficieAgua;
 
         if (nuevoEstado != dentroDelAgua)
         {
@@ -98,11 +102,13 @@ public class PlayerController : MonoBehaviour
     {
         rb.gravityScale = 0f;
 
-        float velocidadActual = usandoTurbo
+        float velocidadActual =
+            usandoTurbo
             ? velocidadTurbo
             : velocidad;
 
-        rb.linearVelocity = movimiento * velocidadActual;
+        rb.linearVelocity =
+            movimiento * velocidadActual;
     }
 
     private void MovimientoEnAire()
@@ -111,7 +117,9 @@ public class PlayerController : MonoBehaviour
 
         float nuevaVelocidadX =
             rb.linearVelocity.x +
-            movimiento.x * controlHorizontalAire * Time.fixedDeltaTime;
+            movimiento.x *
+            controlHorizontalAire *
+            Time.fixedDeltaTime;
 
         nuevaVelocidadX = Mathf.Clamp(
             nuevaVelocidadX,
@@ -128,7 +136,23 @@ public class PlayerController : MonoBehaviour
     public void CambiarEstadoAgua(bool estaDentro)
     {
         bool estabaDentro = dentroDelAgua;
+
         dentroDelAgua = estaDentro;
+
+        if (estabaDentro && !dentroDelAgua)
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.ReproducirSalidaAgua();
+            }
+        }
+        else if (!estabaDentro && dentroDelAgua)
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.ReproducirEntradaAgua();
+            }
+        }
 
         if (dentroDelAgua)
         {
@@ -138,9 +162,13 @@ public class PlayerController : MonoBehaviour
 
         rb.gravityScale = gravedadAire;
 
-        if (estabaDentro && rb.linearVelocity.y > 0f)
+        if (
+            estabaDentro &&
+            rb.linearVelocity.y > 0f
+        )
         {
-            float impulso = usandoTurbo
+            float impulso =
+                usandoTurbo
                 ? impulsoSalidaTurbo
                 : impulsoSalidaAgua;
 
@@ -163,7 +191,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            direccion = rb.linearVelocity.normalized;
+            direccion =
+                rb.linearVelocity.normalized;
         }
 
         if (direccion.sqrMagnitude <= 0.01f)
@@ -201,7 +230,12 @@ public class PlayerController : MonoBehaviour
             ) * Mathf.Rad2Deg;
         }
 
-        visual.localRotation = Quaternion.Euler(0f, 0f, angulo);
+        visual.localRotation =
+            Quaternion.Euler(
+                0f,
+                0f,
+                angulo
+            );
 
         ActualizarPosicionBoca();
     }
@@ -213,7 +247,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        float nuevaX = mirandoIzquierda
+        float nuevaX =
+            mirandoIzquierda
             ? -Mathf.Abs(posicionBocaX)
             : Mathf.Abs(posicionBocaX);
 
@@ -258,7 +293,8 @@ public class PlayerController : MonoBehaviour
         {
             turboRestante = 0f;
             usandoTurbo = false;
-            recargaRestante = tiempoRecargaTurbo;
+            recargaRestante =
+                tiempoRecargaTurbo;
         }
     }
 

@@ -8,6 +8,7 @@ TagManager:
   - Mouth
   - Mine
   - Diver
+  - Jellyfish
   layers:
   - Default
   - TransparentFX

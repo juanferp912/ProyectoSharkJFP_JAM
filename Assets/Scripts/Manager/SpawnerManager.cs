@@ -4,10 +4,15 @@ public class SpawnerManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] pecesPrefabs;
     [SerializeField] private Transform jugador;
+
+    [Header("Cantidad")]
     [SerializeField] private int cantidadInicial = 12;
     [SerializeField] private int cantidadMaxima = 20;
     [SerializeField] private float tiempoEntreGeneraciones = 2f;
-    [SerializeField] private float distanciaHorizontal = 20f;
+
+    [Header("Generacion")]
+    [SerializeField] private float distanciaHorizontalMinima = 8f;
+    [SerializeField] private float distanciaHorizontalMaxima = 22f;
     [SerializeField] private float distanciaMinimaJugador = 6f;
     [SerializeField] private float limiteInferiorY = -14f;
     [SerializeField] private float limiteSuperiorY = 6.5f;
@@ -18,12 +23,18 @@ public class SpawnerManager : MonoBehaviour
     {
         if (jugador == null)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            GameObject player =
+                GameObject.FindGameObjectWithTag("Player");
 
             if (player != null)
             {
                 jugador = player.transform;
             }
+        }
+
+        if (jugador == null)
+        {
+            return;
         }
 
         for (int i = 0; i < cantidadInicial; i++)
@@ -62,11 +73,16 @@ public class SpawnerManager : MonoBehaviour
             return;
         }
 
-        Vector3 posicion = ObtenerPosicion();
+        Vector3 posicion =
+            ObtenerPosicion();
 
-        GameObject prefab = pecesPrefabs[
-            Random.Range(0, pecesPrefabs.Length)
-        ];
+        GameObject prefab =
+            pecesPrefabs[
+                Random.Range(
+                    0,
+                    pecesPrefabs.Length
+                )
+            ];
 
         Instantiate(
             prefab,
@@ -79,30 +95,58 @@ public class SpawnerManager : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
-            float x = Random.Range(
-                jugador.position.x - distanciaHorizontal,
-                jugador.position.x + distanciaHorizontal
-            );
+            float lado =
+                Random.value < 0.5f
+                ? -1f
+                : 1f;
 
-            float y = Random.Range(
-                limiteInferiorY,
-                limiteSuperiorY
-            );
+            float distanciaX =
+                Random.Range(
+                    distanciaHorizontalMinima,
+                    distanciaHorizontalMaxima
+                );
 
-            Vector3 posicion = new Vector3(x, y, 0f);
+            float x =
+                jugador.position.x +
+                distanciaX * lado;
+
+            float y =
+                Random.Range(
+                    limiteInferiorY,
+                    limiteSuperiorY
+                );
+
+            Vector3 posicion =
+                new Vector3(
+                    x,
+                    y,
+                    0f
+                );
 
             if (
-                Vector2.Distance(posicion, jugador.position) >=
-                distanciaMinimaJugador
+                Vector2.Distance(
+                    posicion,
+                    jugador.position
+                ) >= distanciaMinimaJugador
             )
             {
                 return posicion;
             }
         }
 
+        float ladoFallback =
+            Random.value < 0.5f
+            ? -1f
+            : 1f;
+
         return new Vector3(
-            jugador.position.x + distanciaMinimaJugador,
-            0f,
+            jugador.position.x +
+            distanciaHorizontalMinima *
+            ladoFallback,
+            Random.Range(
+                limiteInferiorY,
+                limiteSuperiorY
+            ),
             0f
         );
     }

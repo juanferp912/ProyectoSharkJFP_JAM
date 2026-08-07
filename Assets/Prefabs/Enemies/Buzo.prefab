@@ -165,11 +165,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidadMovimiento: 1.5
   tiempoCambioDireccion: 3
-  distanciaDeteccion: 7
-  distanciaParaDejarDeAtacar: 9
+  distanciaDeteccion: 8
+  distanciaParaDejarDeAtacar: 11
   lanzaPrefab: {fileID: 2372524491030292232, guid: cddce1fcd6ddbd447af0d17467365f3f, type: 3}
   puntoDisparo: {fileID: 2448309176782767805}
-  tiempoEntreDisparos: 3
+  tiempoEntreDisparos: 1.5
   correccionRotacionBuzo: 0
   nivelSuperficieAgua: 8
   margenSuperficie: 1

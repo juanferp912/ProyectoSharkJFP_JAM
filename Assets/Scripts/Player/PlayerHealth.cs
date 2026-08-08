@@ -57,4 +57,19 @@ public class PlayerHealth : MonoBehaviour
             JugadorDerrotado?.Invoke();
         }
     }
+
+    public void AgregarVida(int cantidad)
+    {
+        if (cantidad <= 0)
+        {
+            return;
+        }
+
+        vidasActuales += cantidad;
+        derrotado = false;
+
+        VidasCambiadas?.Invoke(
+            vidasActuales
+        );
+    }
 }

@@ -9,6 +9,10 @@ TagManager:
   - Mine
   - Diver
   - Jellyfish
+  - Seagull
+  - Dolphin
+  - Seal
+  - Orca
   layers:
   - Default
   - TransparentFX

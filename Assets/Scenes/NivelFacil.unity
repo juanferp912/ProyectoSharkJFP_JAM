@@ -5024,59 +5024,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!1 &106559431
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 106559433}
-  - component: {fileID: 106559432}
-  m_Layer: 0
-  m_Name: JellyfishSpawner
-  m_TagString: Jellyfish
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &106559432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106559431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c62af2bb5cfbd74c94d9352b92444be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  medusaPrefab: {fileID: 3123106270559052950, guid: d5580c500c9d28443a52b9666332c2d7, type: 3}
-  jugador: {fileID: 1980906172}
-  cantidadMaxima: 15
-  tiempoEntreGeneraciones: 4
-  distanciaHorizontalMinima: 8
-  distanciaHorizontalMaxima: 20
-  distanciaMinimaJugador: 7
-  limiteInferiorY: -12
-  limiteSuperiorY: 4
---- !u!4 &106559433
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106559431}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.586, y: 0.694, z: -5.7084985}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &122829635
 GameObject:
   m_ObjectHideFlags: 0
@@ -6927,9 +6874,9 @@ MonoBehaviour:
   - {fileID: 8946081228831985728, guid: 9b76a5ed2ece65741b643a14e4d64057, type: 3}
   - {fileID: 1865835616330305764, guid: 9b45aebc812ca2a469e7f6cfa6774569, type: 3}
   jugador: {fileID: 0}
-  cantidadInicial: 0
-  cantidadMaxima: 100
-  tiempoEntreGeneraciones: 0.5
+  cantidadInicial: 12
+  cantidadMaxima: 18
+  tiempoEntreGeneraciones: 2.5
   distanciaHorizontalMinima: 8
   distanciaHorizontalMaxima: 22
   distanciaMinimaJugador: 6
@@ -11906,6 +11853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntuacion: 0
+  puntosPorVida: 25
 --- !u!4 &1224630151
 Transform:
   m_ObjectHideFlags: 0
@@ -12031,11 +11979,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minaPrefab: {fileID: 309989315652652739, guid: 1d3bb873812358b4890518c2c2e68786, type: 3}
   jugador: {fileID: 0}
-  cantidadMaxima: 15
-  tiempoEntreGeneraciones: 4
-  distanciaHorizontalMinima: 8
-  distanciaHorizontalMaxima: 22
-  distanciaMinimaJugador: 7
+  cantidadMaxima: 3
+  tiempoEntreGeneraciones: 10
+  distanciaHorizontalMinima: 10
+  distanciaHorizontalMaxima: 24
+  distanciaMinimaJugador: 9
   limiteInferiorY: -12
   limiteSuperiorY: 5
 --- !u!4 &1379985204
@@ -13287,59 +13235,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909133080}
   m_CullTransparentMesh: 1
---- !u!1 &1926395222
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1926395224}
-  - component: {fileID: 1926395223}
-  m_Layer: 0
-  m_Name: DiverSpawner
-  m_TagString: Diver
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1926395223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1926395222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f595966be9d4f47b88a26e2a69d188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diverPrefab: {fileID: 1437429798367069208, guid: 47b7c4ab5b57da843b4a8ed65f00b9eb, type: 3}
-  jugador: {fileID: 1980906172}
-  cantidadMaxima: 15
-  tiempoEntreGeneraciones: 5
-  distanciaHorizontalMinima: 12
-  distanciaHorizontalMaxima: 24
-  distanciaMinimaJugador: 10
-  limiteInferiorY: -10
-  limiteSuperiorY: 5
---- !u!4 &1926395224
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1926395222}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.27, y: 1.38, z: 0.07239585}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1980906169
 GameObject:
   m_ObjectHideFlags: 0
@@ -13872,8 +13767,6 @@ SceneRoots:
   - {fileID: 761552538}
   - {fileID: 1118809368}
   - {fileID: 1379985204}
-  - {fileID: 1926395224}
-  - {fileID: 106559433}
   - {fileID: 91746044}
   - {fileID: 1563532716}
   - {fileID: 340907858}

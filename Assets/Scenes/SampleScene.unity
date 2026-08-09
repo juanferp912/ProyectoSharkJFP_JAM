@@ -6927,7 +6927,7 @@ MonoBehaviour:
   - {fileID: 8946081228831985728, guid: 9b76a5ed2ece65741b643a14e4d64057, type: 3}
   - {fileID: 1865835616330305764, guid: 9b45aebc812ca2a469e7f6cfa6774569, type: 3}
   jugador: {fileID: 0}
-  cantidadInicial: 0
+  cantidadInicial: 3
   cantidadMaxima: 100
   tiempoEntreGeneraciones: 0.5
   distanciaHorizontalMinima: 8
@@ -11906,6 +11906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puntuacion: 0
+  puntosPorVida: 25
 --- !u!4 &1224630151
 Transform:
   m_ObjectHideFlags: 0

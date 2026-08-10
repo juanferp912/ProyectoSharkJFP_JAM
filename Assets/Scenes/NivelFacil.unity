@@ -5640,6 +5640,57 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   duracionFlash: 0.12
   cantidadFlashes: 3
+--- !u!1 &512491945
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 512491947}
+  - component: {fileID: 512491946}
+  m_Layer: 0
+  m_Name: DolphinSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &512491946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512491945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60cc6b1f28dacbf41bab598d84b2dd49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dolphinPrefab: {fileID: 7288800843433425442, guid: 4ac5347dfe0d8fb4fb092766043a45fe, type: 3}
+  maximoDelfines: 2
+  intervaloSpawn: 12
+  distanciaMinimaX: 12
+  distanciaMaximaX: 24
+  alturaMinima: -10
+  alturaMaxima: 6
+--- !u!4 &512491947
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512491945}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5195519, y: 2.15, z: -5.674196}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5869,6 +5920,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 554694814}
   m_CullTransparentMesh: 1
+--- !u!1 &600087805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600087807}
+  - component: {fileID: 600087806}
+  m_Layer: 0
+  m_Name: SeagullSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &600087806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600087805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3debb8e41c30184eb5b86b7809dacf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seagullPrefab: {fileID: 1616858188437996669, guid: e931202bd3bd586409d07dbdb7841ff6, type: 3}
+  maximoGaviotas: 3
+  intervaloSpawn: 9
+  distanciaMinimaX: 10
+  distanciaMaximaX: 20
+  alturaMinima: 9
+  alturaMaxima: 11
+--- !u!4 &600087807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600087805}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.6854386, y: 1.1178397, z: -5.7369776}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -6576,6 +6678,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 935338576}
   m_CullTransparentMesh: 1
+--- !u!1 &990528321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 990528323}
+  - component: {fileID: 990528322}
+  m_Layer: 0
+  m_Name: SealSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &990528322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990528321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b93e58cd4c7d14dbd892f50d050244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sealPrefab: {fileID: 2977957411180845081, guid: 9a4df69a89215104cafada5293f9d018, type: 3}
+  maximoFocas: 2
+  intervaloSpawn: 13
+  distanciaMinimaX: 12
+  distanciaMaximaX: 24
+  alturaMinima: -10
+  alturaMaxima: 6
+--- !u!4 &990528323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990528321}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.35, y: 3.0756478, z: -5.674196}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1008351091
 GameObject:
   m_ObjectHideFlags: 0
@@ -13777,3 +13930,6 @@ SceneRoots:
   - {fileID: 1622643048}
   - {fileID: 122829637}
   - {fileID: 98518214}
+  - {fileID: 512491947}
+  - {fileID: 600087807}
+  - {fileID: 990528323}

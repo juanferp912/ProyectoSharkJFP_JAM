@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthUI : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class HealthUI : MonoBehaviour
     [SerializeField] private TMP_Text textoVidas;
     [SerializeField] private TMP_Text textoGameOver;
     [SerializeField] private GameObject botonReiniciar;
+    [SerializeField] private GameObject botonMenuPrincipal;
 
     private void Start()
     {
@@ -20,6 +22,11 @@ public class HealthUI : MonoBehaviour
         if (botonReiniciar != null)
         {
             botonReiniciar.SetActive(false);
+        }
+
+        if (botonMenuPrincipal != null)
+        {
+            botonMenuPrincipal.SetActive(false);
         }
 
         if (saludJugador == null)
@@ -64,6 +71,17 @@ public class HealthUI : MonoBehaviour
             botonReiniciar.SetActive(true);
         }
 
+        if (botonMenuPrincipal != null)
+        {
+            botonMenuPrincipal.SetActive(true);
+        }
+
         Time.timeScale = 0f;
+    }
+
+    public void IrMenuPrincipal()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }

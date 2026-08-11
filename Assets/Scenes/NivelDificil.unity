@@ -5158,7 +5158,7 @@ Transform:
   m_GameObject: {fileID: 112827746}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 11.5, z: 0}
+  m_LocalPosition: {x: 0, y: 11.7, z: 0}
   m_LocalScale: {x: 2.2222223, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5604,7 +5604,7 @@ MonoBehaviour:
   factorParallax: 0.1
   alturaCielo: -8.3
   solapamiento: 0.05
-  velocidadMovimiento: 1.2
+  velocidadMovimiento: 0.5
 --- !u!4 &285802419
 Transform:
   m_ObjectHideFlags: 0
@@ -7117,7 +7117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1090624234}
-  - component: {fileID: 1090624233}
+  - component: {fileID: 1090624235}
   m_Layer: 0
   m_Name: CieloManager
   m_TagString: Untagged
@@ -7125,26 +7125,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1090624233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090624232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e231667dc6e2c8c428c7a95853a19eef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jugador: {fileID: 1980906172}
-  cieloA: {fileID: 1589116791}
-  cieloB: {fileID: 1475792735}
-  cieloC: {fileID: 112827747}
-  factorParallax: 0.6
-  alturaCielo: 12
-  solapamiento: 0.05
-  velocidadMovimiento: 0.5
 --- !u!4 &1090624234
 Transform:
   m_ObjectHideFlags: 0
@@ -7160,6 +7140,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1090624235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090624232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171a80929713c4041b9403c93acea3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camara: {fileID: 519420032}
+  cieloA: {fileID: 1589116791}
+  cieloB: {fileID: 1475792735}
+  cieloC: {fileID: 112827747}
+  factorParallax: 0.08
+  superposicion: 0.1
 --- !u!1 &1100425745
 GameObject:
   m_ObjectHideFlags: 0
@@ -12803,7 +12801,7 @@ Transform:
   m_GameObject: {fileID: 1475792733}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 11.5, z: 0}
+  m_LocalPosition: {x: 0, y: 11.7, z: 0}
   m_LocalScale: {x: 2.2222223, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12948,7 +12946,7 @@ Transform:
   m_GameObject: {fileID: 1589116790}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 11.5, z: 0}
+  m_LocalPosition: {x: 0, y: 11.7, z: 0}
   m_LocalScale: {x: 2.2222223, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13089,7 +13087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4395262c03eee484e834aa23e35ac012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jugador: {fileID: 0}
+  jugador: {fileID: 1980906172}
   seguirX: 1
 --- !u!4 &1622643048
 Transform:
@@ -14450,10 +14448,10 @@ SceneRoots:
   - {fileID: 1589116792}
   - {fileID: 1475792736}
   - {fileID: 112827748}
+  - {fileID: 1090624234}
   - {fileID: 1622643048}
   - {fileID: 122829637}
   - {fileID: 98518214}
-  - {fileID: 1090624234}
   - {fileID: 1475593911}
   - {fileID: 611213310}
   - {fileID: 1715891673}

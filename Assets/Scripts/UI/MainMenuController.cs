@@ -3,64 +3,60 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private string nombreEscenaJuego = "SampleScene";
-    [SerializeField] private GameObject panelMenuPrincipal;
-    [SerializeField] private GameObject panelInstrucciones;
+    [SerializeField] private GameObject panelPrincipal;
+    [SerializeField] private GameObject panelMundos;
 
     private void Start()
     {
         Time.timeScale = 1f;
-        AudioListener.pause = false;
+        MostrarMenuPrincipal();
+    }
 
-        if (panelMenuPrincipal != null)
+    public void AbrirSeleccionMundos()
+    {
+        if (panelPrincipal != null)
         {
-            panelMenuPrincipal.SetActive(true);
+            panelPrincipal.SetActive(false);
         }
 
-        if (panelInstrucciones != null)
+        if (panelMundos != null)
         {
-            panelInstrucciones.SetActive(false);
+            panelMundos.SetActive(true);
         }
     }
 
-    public void Jugar()
+    public void VolverMenuPrincipal()
+    {
+        MostrarMenuPrincipal();
+    }
+
+    public void CargarMundo1()
     {
         Time.timeScale = 1f;
-        AudioListener.pause = false;
-
-        SceneManager.LoadScene(
-            nombreEscenaJuego
-        );
+        SceneManager.LoadScene("NivelFacil");
     }
 
-    public void MostrarInstrucciones()
+    public void CargarMundo2()
     {
-        if (panelMenuPrincipal != null)
-        {
-            panelMenuPrincipal.SetActive(false);
-        }
-
-        if (panelInstrucciones != null)
-        {
-            panelInstrucciones.SetActive(true);
-        }
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("NivelDificil");
     }
 
-    public void OcultarInstrucciones()
-    {
-        if (panelInstrucciones != null)
-        {
-            panelInstrucciones.SetActive(false);
-        }
-
-        if (panelMenuPrincipal != null)
-        {
-            panelMenuPrincipal.SetActive(true);
-        }
-    }
-
-    public void Salir()
+    public void SalirJuego()
     {
         Application.Quit();
+    }
+
+    private void MostrarMenuPrincipal()
+    {
+        if (panelPrincipal != null)
+        {
+            panelPrincipal.SetActive(true);
+        }
+
+        if (panelMundos != null)
+        {
+            panelMundos.SetActive(false);
+        }
     }
 }

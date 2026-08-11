@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "ProyectoSharkJFP_JAM-2026-08-09-09-16-14.slnx",
+    "dotnet.defaultSolution": "ProyectoLenguajes2Shark.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }

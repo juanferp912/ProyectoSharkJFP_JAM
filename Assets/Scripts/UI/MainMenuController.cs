@@ -3,31 +3,45 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject panelPrincipal;
+    [SerializeField] private GameObject panelMenuPrincipal;
+    [SerializeField] private GameObject panelInstrucciones;
     [SerializeField] private GameObject panelMundos;
 
     private void Start()
     {
         Time.timeScale = 1f;
-        MostrarMenuPrincipal();
+
+        panelMenuPrincipal.SetActive(true);
+        panelInstrucciones.SetActive(false);
+        panelMundos.SetActive(false);
     }
 
     public void AbrirSeleccionMundos()
     {
-        if (panelPrincipal != null)
-        {
-            panelPrincipal.SetActive(false);
-        }
+        panelMenuPrincipal.SetActive(false);
+        panelInstrucciones.SetActive(false);
+        panelMundos.SetActive(true);
+    }
 
-        if (panelMundos != null)
-        {
-            panelMundos.SetActive(true);
-        }
+    public void MostrarInstrucciones()
+    {
+        panelMenuPrincipal.SetActive(false);
+        panelInstrucciones.SetActive(true);
+        panelMundos.SetActive(false);
+    }
+
+    public void CerrarInstrucciones()
+    {
+        panelMenuPrincipal.SetActive(true);
+        panelInstrucciones.SetActive(false);
+        panelMundos.SetActive(false);
     }
 
     public void VolverMenuPrincipal()
     {
-        MostrarMenuPrincipal();
+        panelMenuPrincipal.SetActive(true);
+        panelInstrucciones.SetActive(false);
+        panelMundos.SetActive(false);
     }
 
     public void CargarMundo1()
@@ -45,18 +59,5 @@ public class MainMenuController : MonoBehaviour
     public void SalirJuego()
     {
         Application.Quit();
-    }
-
-    private void MostrarMenuPrincipal()
-    {
-        if (panelPrincipal != null)
-        {
-            panelPrincipal.SetActive(true);
-        }
-
-        if (panelMundos != null)
-        {
-            panelMundos.SetActive(false);
-        }
     }
 }
